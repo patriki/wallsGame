@@ -1,0 +1,50 @@
+.container {
+  height: 400px;
+  margin: 30px auto;
+  width: 200px;
+  background-color: #bdc7b7;
+}
+
+.square {
+  float: left;
+  height: 20px;
+  width: 20px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.player {
+  background-color: #e45a5a;
+  border-radius: 5px;
+}
+
+.treasure {
+  background-image: url("../img/coin.png");
+}
+
+.score{
+  font: 80px arial, sans-serif;
+  text-align: center;
+  color: #e45a5a;
+  margin: 30px auto;
+  width: 200px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e45a5a;
+}
+
+.level{
+  font: 20px arial, sans-serif;
+  color: #e45a5a;
+  margin: 30px auto;
+  width: 200px;
+  border-color: #e45a5a;
+}
+
+.levelWhite{
+  color: #fff;
+}
+
+.wall{
+  background-color: #fff;
+}
