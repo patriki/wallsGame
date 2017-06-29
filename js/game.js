@@ -4,7 +4,6 @@ function Game(options){
   this.player = options.player;
   //this.wall = options.wall;
 
-  this.wall = [];
   this.arrayOfWalls=[];
   this.treasure = [];
   this.score = 0;
@@ -28,19 +27,19 @@ function Game(options){
 }
 
 Game.prototype._generateWall = function () {
+  var wall = [];
   var wallLength = Math.floor((Math.random() * 5) + 3); //number between 3 and 8
   var wallRow = Math.floor((Math.random() * 17) + 1);   //number until 18
-  this.wall.length = wallLength;
+  wall.length = wallLength;
   for (i = 0; i <= wallLength; i++){
-    this.wall[i] = { col: i,
+    wall[i] = { col: i,
                      row: wallRow
                    };
-    var selector = '[numberOfRow=' + this.wall[i].row + ']' +
-                   '[numberOfCol=' + this.wall[i].col + ']';
+    var selector = '[numberOfRow=' + wall[i].row + ']' +
+                   '[numberOfCol=' + wall[i].col + ']';
     $(selector).addClass('wall');
   }
-  this.arrayOfWalls.push(this.wall);
-  console.log(this.wall);
+  this.arrayOfWalls.push(wall);
 };
 
 // 2.drawing the player:
