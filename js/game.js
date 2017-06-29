@@ -3,6 +3,7 @@ function Game(options){
   this.columns = options.columns;
   this.player = options.player;
   //this.wall = options.wall;
+  this.direction = "right"
 
   this.arrayOfWalls=[];
   this.treasure = [];
@@ -40,13 +41,30 @@ Game.prototype._generateWall = function () {
     $(selector).addClass('wall');
   }
 
-  setInterval(this._moveWallRigth.bind(this, wall), 500)
+  setInterval(this._directionSwitcher.bind(this, wall), 500);
   this.arrayOfWalls.push(wall);
+};
+
+Game.prototype._directionSwitcher = function (wall) {
+  console.log(wall[0].col)
+  if (wall[0].col === 0 ) {
+    this.direction = "right";
+  }else if(wall[wall.length - 1].col === 9){
+    this.direction = "left";
+  }
+
+  if (this.direction === "right") {
+    this._moveWallRight(wall)
+  } else {
+    this._moveWallLeft(wall)
+  }
+
+  console.log(this.direction)
 };
 
 
 
-Game.prototype._moveWallRigth = function (wall) {
+Game.prototype._moveWallRight = function (wall) {
   wall = wall.map(function(cell){
     cell.col += 1;
     return cell;
