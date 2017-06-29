@@ -39,8 +39,47 @@ Game.prototype._generateWall = function () {
                    '[numberOfCol=' + wall[i].col + ']';
     $(selector).addClass('wall');
   }
+
+  setInterval(this._moveWallRigth.bind(this, wall), 500)
   this.arrayOfWalls.push(wall);
 };
+
+
+
+Game.prototype._moveWallRigth = function (wall) {
+  wall = wall.map(function(cell){
+    cell.col += 1;
+    return cell;
+  });
+
+  var selector = '[numberOfRow=' + wall[wall.length - 1].row + ']' +
+                 '[numberOfCol=' + wall[wall.length -1].col + ']';
+  $(selector).addClass('wall');
+
+  var oldSelector = '[numberOfRow=' + wall[0].row + ']' +
+                 '[numberOfCol=' + (wall[0].col -1) + ']';
+  $(oldSelector).removeClass('wall');
+
+
+};
+
+Game.prototype._moveWallLeft = function (wall) {
+  wall = wall.map(function(cell){
+    cell.col -= 1;
+    return cell;
+  });
+
+  var selector = '[numberOfRow=' + wall[0].row + ']' +
+                 '[numberOfCol=' + wall[0].col + ']';
+  $(selector).addClass('wall');
+
+  var oldSelector = '[numberOfRow=' + wall[wall.length -1].row + ']' +
+                 '[numberOfCol=' + (wall[wall.length -1].col + 1) + ']';
+  $(oldSelector).removeClass('wall');
+
+
+};
+
 
 // 2.drawing the player:
 Game.prototype._drawPlayer = function () {
