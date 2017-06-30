@@ -1,9 +1,19 @@
+function Wall(speed){
+  this.body = [];
+  this.direction = "right";
+  this.speedWall = speed;
+}
+
+Wall.prototype.addCell = function(cell){
+  this.body.push(cell);
+};
+
 function Game(options){
   this.rows = options.rows;
   this.columns = options.columns;
   this.player = options.player;
   //this.wall = options.wall;
-  this.direction = "right"
+  //this.direction = "right";
 
   this.arrayOfWalls=[];
   this.treasure = [];
@@ -22,53 +32,65 @@ function Game(options){
 
   this._generateTreasures();
   this._drawPlayer();
-  //this._drawWall();
   this._movePlayerWithKeys();
   this._generateWall();
 }
 
 Game.prototype._generateWall = function () {
-  var wall = [];
+  var speedRandom = (Math.floor((Math.random() * 8) + 2)) * 100;
+  var wall = new Wall(speedRandom);
   var wallLength = Math.floor((Math.random() * 5) + 3); //number between 3 and 8
   var wallRow = Math.floor((Math.random() * 17) + 1);   //number until 18
-  wall.length = wallLength;
-  for (i = 0; i <= wallLength; i++){
-    wall[i] = { col: i,
-                     row: wallRow
-                   };
-    var selector = '[numberOfRow=' + wall[i].row + ']' +
-                   '[numberOfCol=' + wall[i].col + ']';
-    $(selector).addClass('wall');
+  console.log(this.arrayOfWalls.length);
+  if (this.arrayOfWalls.length >= 1){
+    for (var i = 0; i < this.arrayOfWalls.length; i++){
+      if (wallRow === this.arrayOfWalls[i].body[0].row){
+        wallRow = Math.floor((Math.random() * 17) + 1);
+      }
+      // do{
+      //     wallRow = Math.floor((Math.random() * 17) + 1);
+      // } while (wallRow === this.arrayOfWalls[i].body[0].row);
+    }
   }
 
-  setInterval(this._directionSwitcher.bind(this, wall), 500);
+  for (i = 0; i <= wallLength; i++){
+    wall.addCell({ col: i, row: wallRow});
+    var selector = '[numberOfRow=' + wall.body[i].row + ']' +
+                   '[numberOfCol=' + wall.body[i].col + ']';
+    $(selector).addClass('wall');
+    console.log(wall);
+  }
+  console.log(wall.speedWall)
+  setInterval(this._directionSwitcher.bind(this, wall), wall.speedWall);
   this.arrayOfWalls.push(wall);
+  wall.speedWall += 200;
 };
 
 Game.prototype._directionSwitcher = function (wall) {
-  console.log(wall[0].col)
-  if (wall[0].col === 0 ) {
-    this.direction = "right";
-  }else if(wall[wall.length - 1].col === 9){
-    this.direction = "left";
+  // console.log(wall[0].col)
+  if (wall.body[0].col === 0 ) {
+    wall.direction = "right";
+  }else if(wall.body[wall.body.length - 1].col === 9){
+    wall.direction = "left";
   }
 
-  if (this.direction === "right") {
-    this._moveWallRight(wall)
+  if (wall.direction === "right") {
+    this._moveWallRight(wall);
   } else {
-    this._moveWallLeft(wall)
+    this._moveWallLeft(wall);
   }
-
-  console.log(this.direction)
+  // console.log(this.direction);
 };
 
 
 
 Game.prototype._moveWallRight = function (wall) {
-  wall = wall.map(function(cell){
+  this._collideWithWall();
+
+  wall = wall.body.map(function(cell){
     cell.col += 1;
     return cell;
-  });
+  }.bind(this));
 
   var selector = '[numberOfRow=' + wall[wall.length - 1].row + ']' +
                  '[numberOfCol=' + wall[wall.length -1].col + ']';
@@ -82,7 +104,9 @@ Game.prototype._moveWallRight = function (wall) {
 };
 
 Game.prototype._moveWallLeft = function (wall) {
-  wall = wall.map(function(cell){
+  this._collideWithWall();
+
+  wall = wall.body.map(function(cell){
     cell.col -= 1;
     return cell;
   });
@@ -156,9 +180,10 @@ Game.prototype._generateTreasures = function() {
 
 Game.prototype._collideWithWall = function () {
   for (i = 0; i < this.arrayOfWalls.length; i++){
-    for (j = 0; j < this.arrayOfWalls[i].length; j++){
-      if (this.player.body.row === this.arrayOfWalls[i][j].row && this.player.body.column === this.arrayOfWalls[i][j].col){
-      alert ('you lost');
+    for (j = 0; j < this.arrayOfWalls[i].body.length; j++){
+      if (this.player.body.row === this.arrayOfWalls[i].body[j].row && this.player.body.column === this.arrayOfWalls[i].body[j].col){
+
+        $(".background-darkener-nice").fadeIn(1000);
       }
     }
   }
@@ -185,6 +210,7 @@ Game.prototype._updateScore = function () {
 Game.prototype._checkLevel = function () {
   if(this.score % 75 === 0){
     document.getElementById('levelValue').innerHTML = 'Great! Next level!';
+    setTimeout(function(){$("#levelValue").text("")}, 1000);
     this._generateTreasures();
     this._generateWall();
   }

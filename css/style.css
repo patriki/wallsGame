@@ -1,9 +1,22 @@
+.cont{
+  background-image: url("../img/fondo.png");
+  background-repeat: no-repeat;
+  height: 600px;
+  margin: 30px auto;
+  width: 840px;
+}
+
 .container {
+  background-image: url("../img/background.png");
   height: 400px;
   margin: 30px auto;
   width: 200px;
-  background-color: #bdc7b7;
-}
+  background-color: #8f988a;
+  position: absolute;
+  top: 140px;
+  left: 570px;
+  border: 2px solid rgb(255, 255, 255);
+  }
 
 .square {
   float: left;
@@ -11,15 +24,18 @@
   width: 20px;
   box-sizing: border-box;
   border: 1px solid rgba(255, 255, 255, 0.2);
+
 }
 
 .player {
-  background-color: #e45a5a;
+  background-image: url("../img/player.png");
+  background-repeat: no-repeat;
   border-radius: 5px;
 }
 
 .treasure {
   background-image: url("../img/coin.png");
+  background-repeat: no-repeat;
 }
 
 .score{
@@ -31,14 +47,22 @@
   border-style: solid;
   border-width: 1px;
   border-color: #e45a5a;
+  background-color:  rgba(255, 255, 255, 0.6);
+  position: absolute;
+  top: 200px;
+  left: 300px;
 }
 
 .level{
-  font: 20px arial, sans-serif;
+  font: 40px arial, sans-serif;
+  text-align: center;
   color: #e45a5a;
   margin: 30px auto;
   width: 200px;
   border-color: #e45a5a;
+  position: absolute;
+  top: 100px;
+  left: 300px;
 }
 
 .levelWhite{
@@ -46,5 +70,37 @@
 }
 
 .wall{
-  background-color: #fff;
+  background-image: url("../img/rock.png");
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+
+
+
+
+.background-darkener-nice{
+   background: #000;
+    display: none;
+   position: fixed;
+   top: 0px;
+   left: 0px;
+   width: 100%;
+   height: 100%;
+   z-index: 1;
+   background-color: rgba(0,0,0,0.5);
+}
+
+.popup-p1 {
+    height: 400px;
+    width: 400px;
+    /*background-image: url("../img/rock.png");
+*/
+    display:inherit;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    webkit-transform: translate(-50%, -50%);
+    moz-transform: translate(-50%, -50%);
+    ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
