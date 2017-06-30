@@ -60,7 +60,7 @@ Game.prototype._generateWall = function () {
     $(selector).addClass('wall');
     console.log(wall);
   }
-  console.log(wall.speedWall)
+  console.log(wall.speedWall);
   setInterval(this._directionSwitcher.bind(this, wall), wall.speedWall);
   this.arrayOfWalls.push(wall);
   wall.speedWall += 200;
